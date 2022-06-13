@@ -1,2 +1,2 @@
 # SSL
-Sintaxis y Semántica de Lenguajes
+Materia: Sintaxis y Semántica de Lenguajes
