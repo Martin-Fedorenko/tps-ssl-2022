@@ -1,11 +1,14 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 int enteros=0, octales=0, hexa=0, errores=0;
 
 int main(){
-    //FALTA UNA FUNCI”N QUE PERMITA INGRESAR LA CADENA DE CARACTERES DESDE UN ARCHIVO
-    //ACA PODRÕA IR UNA FUNCI”N QUE PONGA EN 0 LOS VALORES (ENTEROS, OCTALES, HEXA, ERRORES) ANTES DE UTILIZAR EL AUTOMATA
+
+
+    //FALTA UNA FUNCI√ìN QUE PERMITA INGRESAR LA CADENA DE CARACTERES DESDE UN ARCHIVO
+    //ACA PODR√çA IR UNA FUNCI√ìN QUE PONGA EN 0 LOS VALORES (ENTEROS, OCTALES, HEXA, ERRORES) ANTES DE UTILIZAR EL AUTOMATA
     char cadena[100];
     printf("Ingrese una cadena de numeros enteros, octales o hexadecimales separados por un &: \n");
     scanf("%s", cadena);
@@ -15,7 +18,25 @@ int main(){
     printf("Hexadecimales: %d\n", hexa);
     printf("Errores lexicos: %d\n", errores);
 
+
+    //char caracter;
+    //scanf("%c", &caracter);
+    //printf("Numero: %d\n", caracterAEntero("454545"));
+
 }
+//PUNTO 2?
+int caracterAEntero(char cadena[]){
+
+    int i = 0, numero = 0, potencia=0;
+    while(cadena[i] != '\0'){
+        potencia = pow(10, strlen(cadena)-i-1);
+        numero = numero + potencia*(cadena[i]-48);
+        i++;
+    }
+    return numero;
+}
+
+//PUNTO 1
 
 //ESTA FUNCION VERIFICA SI UN CARACTER ES MIEMBRO DE UNA CADENA DE CARACTERES (ALFABETO)
 int esCaracterDelAlfabeto(int c, char alfabeto[]){
@@ -30,53 +51,49 @@ int esCaracterDelAlfabeto(int c, char alfabeto[]){
     }
     return pertenece;
 }
-//ESTA FUNCION ASIGNA A QUE COLUMNA DE LA MATRIZ DE TRANSICI”N DEL AUTOMATA DIRIGIRSE DEPENDIENDO QUE CARACTER HAYA INGRESADO
+//ESTA FUNCION ASIGNA A QUE COLUMNA DE LA MATRIZ DE TRANSICI√ìN DEL AUTOMATA DIRIGIRSE DEPENDIENDO QUE CARACTER HAYA INGRESADO
 int columna(int c){
     if(esCaracterDelAlfabeto(c, "+-"))
         return 0;
     else if(esCaracterDelAlfabeto(c, "0"))
         return 1;
-    else if(esCaracterDelAlfabeto(c, "1234567"))
+    else if(esCaracterDelAlfabeto(c, "xX"))
         return 2;
-    else if(esCaracterDelAlfabeto(c, "89"))
+    else if(esCaracterDelAlfabeto(c, "1234567"))
         return 3;
-    else if(esCaracterDelAlfabeto(c, "AaBbCcDdEeFf"))
+    else if(esCaracterDelAlfabeto(c, "89"))
         return 4;
-    else if(esCaracterDelAlfabeto(c, "&"))
+    else if(esCaracterDelAlfabeto(c, "AaBbCcDdEeFf"))
         return 5;
-    else
+    else if(esCaracterDelAlfabeto(c, "&"))
         return 6;
+    else
+        return 7;
 }
 //ESTA FUNCION RECORRE LA CADENA DE CARACTERES, RECORRE EL AUTOMATA DEPENDIENDO
 //QUE CARACTER SE HAYA INGRESADO Y TAMBIEN CONTABILIZA LA CANTIDAD DE NUMEROS O ERRORES LEXICOS QUE HUBO
 
-int automata(const char *cadena){
-    static int tt[7][6] = {{1,6,2,4,5,0,6},
-                           {6,3,3,3,6,0,6},
-			               {6,2,2,4,5,0,6},
-			               {6,3,3,3,6,0,6},
-			               {6,4,4,4,5,0,6},
-			               {6,5,5,5,5,0,6},
-			               {6,6,6,6,6,0,6}};
+void automata(const char *cadena){
+    static int tt[8][8] = {{1,3,7,2,2,7,0,7},
+                           {7,7,7,2,2,7,0,7},
+                           {7,2,7,2,2,7,0,7},
+			               {7,4,5,4,7,7,0,7},
+			               {7,4,7,4,7,7,0,7},
+			               {7,6,7,6,6,6,0,7},
+			               {7,6,7,6,6,6,0,7},
+			               {7,7,7,7,7,7,0,7}};
 	int e=0, i=0;
     while(cadena[i] != '\0'){
 
     //NO OLVIDAR QUE LOS OCTALES ESTAN INCLUIDOS EN LOS ENTEROS Y LOS HEXADECIMALES
-    //VALDR¡ LA PENA CAMBIAR ESTO POR UN SWITCH?
-        if(cadena[i] == '&' && e == 2){
+    //VALDR√Å LA PENA CAMBIAR ESTO POR UN SWITCH?
+        if(cadena[i] == '&' && e == 2)
+            enteros++;
+        else if(cadena[i] == '&' && e == 4)
             octales++;
-            enteros++;
-            hexa++;
-        }
-        else if(cadena[i] == '&' && e == 3)
-            enteros++;
-        else if(cadena[i] == '&' && e == 4){
-            enteros++;
-            hexa++;
-        }
-        else if(cadena[i] == '&' && e == 5)
-            hexa++;
         else if(cadena[i] == '&' && e == 6)
+            hexa++;
+        else if(cadena[i] == '&' && e == 7)
             errores++;
 
         e=tt[e][columna(cadena[i])];
@@ -84,20 +101,14 @@ int automata(const char *cadena){
     }
 
     //PUEDE IR UN SWITCH
-    if(e == 2){
-        octales++;
-        enteros++;
-        hexa++;
-    }
-    else if(e == 3)
-        enteros++;
-    else if(e == 4){
-        enteros++;
-        hexa++;
-    }
-    else if(e == 5)
-        hexa++;
-    else if(e == 6)
-        errores++;
+        if(e == 2)
+            enteros++;
+        else if(e == 3)
+            enteros++;
+        else if(e == 4)
+            octales++;
+        else if(e == 6)
+            hexa++;
+        else if(e == 7)
+            errores++;
 }
-
