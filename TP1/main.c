@@ -86,29 +86,39 @@ void automata(const char *cadena){
     while(cadena[i] != '\0'){
 
     //NO OLVIDAR QUE LOS OCTALES ESTAN INCLUIDOS EN LOS ENTEROS Y LOS HEXADECIMALES
-    //VALDRÁ LA PENA CAMBIAR ESTO POR UN SWITCH?
-        if(cadena[i] == '&' && e == 2)
-            enteros++;
-        else if(cadena[i] == '&' && e == 4)
-            octales++;
-        else if(cadena[i] == '&' && e == 6)
-            hexa++;
-        else if(cadena[i] == '&' && e == 7)
-            errores++;
+        if(cadena[i] == '&')
+            switch(e) {
+                case 2:
+                    enteros++;
+                    break;
+                case 4:
+                    octales++;
+                    break;
+                case 6:
+                    hexa++;
+                    break;
+                default:
+                    errores++;
+            }
 
         e=tt[e][columna(cadena[i])];
         i++;
     }
 
-    //PUEDE IR UN SWITCH
-        if(e == 2)
-            enteros++;
-        else if(e == 3)
-            enteros++;
-        else if(e == 4)
-            octales++;
-        else if(e == 6)
-            hexa++;
-        else if(e == 7)
-            errores++;
+        switch(e){    
+            case 2:
+                enteros++;
+                break;  
+            case 3:
+                enteros++;
+                break;  
+            case 4:
+                octales++;
+                break;  
+            case 6:
+                hexa++;
+                break;  
+            default:
+                errores++;
+        }    
 }
