@@ -7,7 +7,6 @@ int enteros=0, octales=0, hexa=0, errores=0;
 int main(){
 
 
-    //FALTA UNA FUNCIÓN QUE PERMITA INGRESAR LA CADENA DE CARACTERES DESDE UN ARCHIVO
     //ACA PODRÍA IR UNA FUNCIÓN QUE PONGA EN 0 LOS VALORES (ENTEROS, OCTALES, HEXA, ERRORES) ANTES DE UTILIZAR EL AUTOMATA
     char cadena[100];
     char modo;
@@ -57,7 +56,7 @@ int main(){
     //printf("Numero: %d\n", caracterAEntero("454545"));
 
 }
-//PUNTO 2?
+//PUNTO 2
 int caracterAEntero(char cadena[]){
 
     int i = 0, numero = 0, potencia=0;
@@ -84,7 +83,7 @@ int esCaracterDelAlfabeto(int c, char alfabeto[]){
     }
     return pertenece;
 }
-//ESTA FUNCION ASIGNA A QUE COLUMNA DE LA MATRIZ DE TRANSICIÓN DEL AUTOMATA DIRIGIRSE DEPENDIENDO QUE CARACTER HAYA INGRESADO
+//ESTA FUNCION ASIGNA A QUE COLUMNA DE LA MATRIZ DE TRANSICIÓN EL AUTOMATA DIRIGIRSE DEPENDIENDO QUE CARACTER HAYA INGRESADO
 int columna(int c){
     if(esCaracterDelAlfabeto(c, "+-"))
         return 0;
@@ -118,7 +117,6 @@ void automata(const char *cadena){
 	int e=0, i=0;
     while(cadena[i] != '\0'){
 
-    //NO OLVIDAR QUE LOS OCTALES ESTAN INCLUIDOS EN LOS ENTEROS Y LOS HEXADECIMALES
         if(cadena[i] == '&')
             switch(e) {
                 case 2:
