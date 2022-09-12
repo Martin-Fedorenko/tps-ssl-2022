@@ -10,9 +10,42 @@ int main(){
     //FALTA UNA FUNCIÓN QUE PERMITA INGRESAR LA CADENA DE CARACTERES DESDE UN ARCHIVO
     //ACA PODRÍA IR UNA FUNCIÓN QUE PONGA EN 0 LOS VALORES (ENTEROS, OCTALES, HEXA, ERRORES) ANTES DE UTILIZAR EL AUTOMATA
     char cadena[100];
+    char modo;
+    printf("Ingrese 'a' para leer un archivo o 'c' para ingresar una cadena por consola \n");
+    scanf("%c", &modo);
+    //Modo archivo
+    if(modo == 'a'){
+        char nombreArchivo[20];
+        printf("Ingrese el nombre del archivo \n");
+        scanf("%s", nombreArchivo);
+
+        FILE *f;
+        long fileSize;
+        char *buffer;
+
+        f = fopen ( nombreArchivo , "rb" );
+
+        //Busca el tamanio del archivo
+        fseek( f , 0L , SEEK_END);
+        fileSize = ftell( f );
+        rewind( f );
+
+        //Asigna memoria
+        buffer = calloc( 1, fileSize+1 );
+
+        //Lee el archivo
+        fread( buffer , fileSize, 1 , f);
+
+        automata(buffer);
+        fclose(f);
+        free(buffer);
+    }
+    //Modo consola
+    else if(modo == 'c'){
     printf("Ingrese una cadena de numeros enteros, octales o hexadecimales separados por un &: \n");
     scanf("%s", cadena);
     automata(cadena);
+    }
     printf("Enteros: %d\n", enteros);
     printf("Octales: %d\n", octales);
     printf("Hexadecimales: %d\n", hexa);
