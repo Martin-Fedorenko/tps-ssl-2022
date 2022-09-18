@@ -13,7 +13,7 @@ typedef struct tnodo{
 typedef nodo* ptrNodo;
 
 //PUNTO 1
-//Esta función se encarga de analizar si un caracter pertenece a un alfabeto determinado.
+//Esta funciÃ³n se encarga de analizar si un caracter pertenece a un alfabeto determinado.
 int esCaracterDelAlfabeto(int c, char alfabeto[]){
     int i = 0, pertenece = 0;
     while(alfabeto[i] != '\0'){
@@ -27,7 +27,7 @@ int esCaracterDelAlfabeto(int c, char alfabeto[]){
     return pertenece;
 };
 
-//Esta función se encarga de devolver a que estado va a dirigirse el automata1
+//Esta funciÃ³n se encarga de devolver a que estado va a dirigirse el automata1
 //dependiendo de que caracter fue consumido por el automata1.
 int columnaAutomata1(int c){
     if(esCaracterDelAlfabeto(c, "+-"))
@@ -49,17 +49,17 @@ int columnaAutomata1(int c){
 };
 
 //Este procedimiento analiza una cadena de caracteres conformada por distintos numeros separados por "&",
-//determinando y contabilizando si se trata de un número entero con o sin signo, octale,
-//hexadecimal o un error léxico.
+//determinando y contabilizando si se trata de un nÃºmero entero con o sin signo, octale,
+//hexadecimal o un error lÃ©xico.
 void automata1(const char *cadena){
     static int tt[8][8] = {{1,3,7,2,2,7,0,7},
                            {7,7,7,2,2,7,0,7},
                            {7,2,7,2,2,7,0,7},
-			               {7,4,5,4,7,7,0,7},
-			               {7,4,7,4,7,7,0,7},
-			               {7,6,7,6,6,6,0,7},
-			               {7,6,7,6,6,6,0,7},
-			               {7,7,7,7,7,7,0,7}};
+			   {7,4,5,4,7,7,0,7},
+			   {7,4,7,4,7,7,0,7},
+			   {7,6,7,6,6,6,0,7},
+			   {7,6,7,6,6,6,0,7},
+			   {7,7,7,7,7,7,0,7}};
 	int e=0, i=0;
     while(cadena[i] != '\0'){
 
@@ -100,7 +100,7 @@ void automata1(const char *cadena){
 };
 
 //PUNTO 2
-//Esta función toma como parámetro una cadena de caracteres
+//Esta funciÃ³n toma como parÃ¡metro una cadena de caracteres
 //que posee un numero entero positivo y lo transforma en un numero entero de tipo int.
 int caracterAEntero(char cadena[]){
     int i = 0, numero = 0, potencia=0;
@@ -113,7 +113,7 @@ int caracterAEntero(char cadena[]){
 };
 
 //PUNTO 3
-//Esta función devuelve la cantidad de numeros del vector de números.
+//Esta funciÃ³n devuelve la cantidad de numeros del vector de nÃºmeros.
 int cargarOperandos(char *cadena,int numeros[]){
 	char cadenaAuxiliar[100];
 	int contCadena = 0;
@@ -172,7 +172,7 @@ void agregarALista(ptrNodo* lista, int num, char op) {
         *lista = nuevo;
     }
     else{
-   	   //la lista no está vacia
+   	   //la lista no estÃ¡ vacia
         ptrNodo aux=(ptrNodo)malloc(sizeof(nodo));
         aux = *lista;
         while( aux->sig !=NULL){
@@ -261,7 +261,7 @@ void borrarEnlazar(ptrNodo* lista,ptrNodo nodo){
 	return;
 };
 
-//Esta función se encarga de devolver a que estado va a dirigirse el automata2
+//Esta funciÃ³n se encarga de devolver a que estado va a dirigirse el automata2
 //dependiendo de que caracter fue consumido por el automata2.
 int columnaAutomata2(int c){
     if(esCaracterDelAlfabeto(c, "0123456789"))
@@ -272,8 +272,8 @@ int columnaAutomata2(int c){
         return 2;
 };
 
-//Esta función analiza si una "palabra" (cadena de caracteres) pertenece o no al lenguaje conformado por:
-//aquellas ecuaciones aritméticas conformadas por numeros enteros positivos, sumas, restas y multipliaciones.
+//Esta funciÃ³n analiza si una "palabra" (cadena de caracteres) pertenece o no al lenguaje conformado por:
+//aquellas ecuaciones aritmÃ©ticas conformadas por numeros enteros positivos, sumas, restas y multipliaciones.
 int automata2(const char *cadena){
     static int tt[5][3] = {{1,4,4},
                            {1,2,4},
@@ -325,7 +325,7 @@ void ingresarPorArchivo(char *cadena){
 
     f = fopen ( nombreArchivo , "rb" );
 
-    //Busca el tamaño del archivo
+    //Busca el tamaÃ±o del archivo
     fseek( f , 0L , SEEK_END);
     fileSize = ftell( f );
     rewind( f );
