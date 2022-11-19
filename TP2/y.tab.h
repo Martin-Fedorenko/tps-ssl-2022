@@ -77,8 +77,8 @@ typedef union YYSTYPE
 {
 
 /* Line 1676 of yacc.c  */
-#line 21 "sintactico.y"
-char* nombre; int num;
+#line 22 "sintactico.y"
+char nombre[32]; int num;
 
 
 /* Line 1676 of yacc.c  */

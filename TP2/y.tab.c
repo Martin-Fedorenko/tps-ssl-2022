@@ -80,17 +80,18 @@ extern void yyerror();
 
 void leerIdentificador(char* identificador);
 void escribirExpresion(int valor);
+void errorIdentificadorNoDeclarado();
 int asignarExpresion(char* identificador, int valor);
 int procesarIdentificador(char* identificador);
 
-char* tablaDeSimbolos[10];
-int valores[10];
-int ultimoIdentificador;
+char tablaDeSimbolos[100][32];
+int valores[100] = {};
+int ultimoIdentificador = 0;
 
 
 
 /* Line 189 of yacc.c  */
-#line 94 "y.tab.c"
+#line 95 "y.tab.c"
 
 /* Enabling traces.  */
 #ifndef YYDEBUG
@@ -155,12 +156,12 @@ typedef union YYSTYPE
 {
 
 /* Line 214 of yacc.c  */
-#line 21 "sintactico.y"
-char* nombre; int num;
+#line 22 "sintactico.y"
+char nombre[32]; int num;
 
 
 /* Line 214 of yacc.c  */
-#line 164 "y.tab.c"
+#line 165 "y.tab.c"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
@@ -172,7 +173,7 @@ char* nombre; int num;
 
 
 /* Line 264 of yacc.c  */
-#line 176 "y.tab.c"
+#line 177 "y.tab.c"
 
 #ifdef short
 # undef short
@@ -462,8 +463,8 @@ static const yytype_int8 yyrhs[] =
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    35,    35,    37,    37,    39,    40,    41,    43,    43,
-      43,    45,    45,    45,    47,    47,    47,    49,    49,    49
+       0,    34,    34,    36,    36,    38,    39,    40,    42,    42,
+      42,    44,    44,    44,    46,    46,    46,    48,    48,    48
 };
 #endif
 
@@ -1380,91 +1381,91 @@ yyreduce:
         case 2:
 
 /* Line 1455 of yacc.c  */
-#line 35 "sintactico.y"
+#line 34 "sintactico.y"
     {printf("Compilacion exitosa!");exit(0);}
     break;
 
   case 5:
 
 /* Line 1455 of yacc.c  */
-#line 39 "sintactico.y"
+#line 38 "sintactico.y"
     {asignarExpresion((yyvsp[(1) - (4)].nombre),(yyvsp[(3) - (4)].num));}
     break;
 
   case 8:
 
 /* Line 1455 of yacc.c  */
-#line 43 "sintactico.y"
+#line 42 "sintactico.y"
     {(yyval.num) = (yyvsp[(1) - (1)].num);}
     break;
 
   case 9:
 
 /* Line 1455 of yacc.c  */
-#line 43 "sintactico.y"
+#line 42 "sintactico.y"
     {(yyval.num) = (yyvsp[(1) - (3)].num) + (yyvsp[(3) - (3)].num);}
     break;
 
   case 10:
 
 /* Line 1455 of yacc.c  */
-#line 43 "sintactico.y"
+#line 42 "sintactico.y"
     {(yyval.num) = (yyvsp[(1) - (3)].num) - (yyvsp[(3) - (3)].num);}
     break;
 
   case 11:
 
 /* Line 1455 of yacc.c  */
-#line 45 "sintactico.y"
+#line 44 "sintactico.y"
     {leerIdentificador((yyvsp[(1) - (1)].nombre));}
     break;
 
   case 13:
 
 /* Line 1455 of yacc.c  */
-#line 45 "sintactico.y"
+#line 44 "sintactico.y"
     {leerIdentificador((yyvsp[(1) - (1)].nombre));}
     break;
 
   case 14:
 
 /* Line 1455 of yacc.c  */
-#line 47 "sintactico.y"
+#line 46 "sintactico.y"
     {escribirExpresion((yyvsp[(1) - (1)].num));}
     break;
 
   case 16:
 
 /* Line 1455 of yacc.c  */
-#line 47 "sintactico.y"
+#line 46 "sintactico.y"
     {escribirExpresion((yyvsp[(1) - (1)].num));}
     break;
 
   case 17:
 
 /* Line 1455 of yacc.c  */
-#line 49 "sintactico.y"
+#line 48 "sintactico.y"
     {(yyval.num) = procesarIdentificador((yyvsp[(1) - (1)].nombre));}
     break;
 
   case 18:
 
 /* Line 1455 of yacc.c  */
-#line 49 "sintactico.y"
+#line 48 "sintactico.y"
     {(yyval.num) = (yyvsp[(1) - (1)].num);}
     break;
 
   case 19:
 
 /* Line 1455 of yacc.c  */
-#line 49 "sintactico.y"
+#line 48 "sintactico.y"
     {(yyval.num) = (yyvsp[(2) - (3)].num);}
     break;
 
 
 
 /* Line 1455 of yacc.c  */
-#line 1468 "y.tab.c"
+#line 1469 "y.tab.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -1676,16 +1677,13 @@ yyreturn:
 
 
 /* Line 1675 of yacc.c  */
-#line 52 "sintactico.y"
+#line 50 "sintactico.y"
 
 
-int main(){
-yyparse();
-}
 
 int identificadorNoDeclarado(char* identificador){
   for(int i=0; i<10; i++){
-    if(tablaDeSimbolos[i] == identificador){
+    if(!(strcmp(tablaDeSimbolos[i], identificador))){
         return 0;
     }
   }
@@ -1694,7 +1692,7 @@ int identificadorNoDeclarado(char* identificador){
 
 int buscarIdentificador(char* identificador){
   for(int i=0; i<10; i++){
-    if(tablaDeSimbolos[i] == identificador){
+    if(!(strcmp(tablaDeSimbolos[i], identificador))){
         return i;
     }
   }
@@ -1704,16 +1702,16 @@ int buscarIdentificador(char* identificador){
 void leerIdentificador(char* identificador){
     int valor;
     printf("Inserte un valor %s\n", identificador);
-    scanf("%d", valor);
+    fflush(stdin);
+    scanf("%d", &valor);
     if(identificadorNoDeclarado(identificador)){
-      tablaDeSimbolos[ultimoIdentificador] = identificador;
+      strcpy(tablaDeSimbolos[ultimoIdentificador], identificador);
       valores[ultimoIdentificador] = valor;
       ultimoIdentificador++;
     }else{
       int i = buscarIdentificador(identificador);
       valores[i] = valor;
     }
-
 }
 
 int procesarIdentificador(char* identificador){
@@ -1721,10 +1719,8 @@ int procesarIdentificador(char* identificador){
   if(i>=0){
     return valores[i];
   }else{
-    printf("Error semantico: uno de los identificadores no fue declarado \n");
-    exit(0);
+    errorIdentificadorNoDeclarado();
   }
-
 }
 
 void escribirExpresion(int valor){
@@ -1736,9 +1732,13 @@ int asignarExpresion(char* identificador, int valor){
   if(i>=0){
     valores[i]=valor;
   }else{
+    errorIdentificadorNoDeclarado();
+  }
+}
+
+void errorIdentificadorNoDeclarado(){
     printf("Error semantico: uno de los identificadores no fue declarado \n");
     exit(0);
-  }
 }
 
 void yyerror()
@@ -1747,7 +1747,3 @@ void yyerror()
   exit(0);
 }
 
-int yywrap()
-{	
-return 1;
-}

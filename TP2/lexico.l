@@ -6,11 +6,12 @@
 #include "y.tab.h"
 int i = 0;
 
+void verificarTamanio(char* identificador);
+int yyparse();
+
 #ifndef yywrap
 static int yywrap(void) { return 1;}
 #endif
-
-void verificarTamanio(char* identificador);
 
 %}
 
@@ -28,7 +29,7 @@ ESPACIOS [ \t\n]+
 "fin"           {return (FIN);}
 "leer"          {return (LEER);}
 "escribir"      {return (ESCRIBIR);}
-{IDENTIFICADOR} {yylval.nombre = yytext; verificarTamanio(yylval.nombre);  return (IDENTIFICADOR);}
+{IDENTIFICADOR} {strcpy(yylval.nombre, yytext); verificarTamanio(yylval.nombre);  return (IDENTIFICADOR);}
 {CONSTANTE}     {yylval.num=atoi(yytext); return (CONSTANTE);};
 ":="            {return (ASIGNACION);}
 "+"             {return (MAS);}
@@ -39,7 +40,7 @@ ESPACIOS [ \t\n]+
 ";"             {return (PCOMA);}
 {ESPACIOS}      ;
 
-.               {printf("Error lexico: %s es un caracter invalido\n", yytext); exit(0);};
+.               {printf("Error lexico: %s no es un caracter o identificador valido\n", yytext); exit(0);};
 
 %%
 
@@ -47,5 +48,22 @@ void verificarTamanio(char* identificador){
     if(strlen(identificador) > 32){
         printf("Error lexico: %s supera los 32 caracteres permitidos \n", identificador); 
         exit(0);
+    }
+}
+
+int main(){
+    FILE *f;
+    char nombreArchivo[20];
+    printf("Ingrese el nombre del archivo:\n");
+    scanf("%s", nombreArchivo);
+
+    f = fopen(nombreArchivo, "r");
+    if(f){
+        yyin = f;
+        yyparse();
+        fclose(f);
+    }else{
+        printf("Error al abrir el archivo");
+        fclose(f);
     }
 }

@@ -395,13 +395,14 @@ char *yytext;
 #include "y.tab.h"
 int i = 0;
 
+void verificarTamanio(char* identificador);
+int yyparse();
+
 #ifndef yywrap
 static int yywrap(void) { return 1;}
 #endif
 
-void verificarTamanio(char* identificador);
-
-#line 405 "lex.yy.c"
+#line 406 "lex.yy.c"
 
 /* Macros after this point can all be overridden by user definitions in
  * section 1.
@@ -552,12 +553,12 @@ YY_DECL
 	register char *yy_cp, *yy_bp;
 	register int yy_act;
 
-#line 23 "lexico.l"
+#line 24 "lexico.l"
 
 
 
 
-#line 561 "lex.yy.c"
+#line 562 "lex.yy.c"
 
 	if ( yy_init )
 		{
@@ -642,85 +643,85 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 27 "lexico.l"
+#line 28 "lexico.l"
 {return (INICIO);}
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 28 "lexico.l"
+#line 29 "lexico.l"
 {return (FIN);}
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 29 "lexico.l"
+#line 30 "lexico.l"
 {return (LEER);}
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 30 "lexico.l"
+#line 31 "lexico.l"
 {return (ESCRIBIR);}
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 31 "lexico.l"
-{yylval.nombre = yytext; verificarTamanio(yylval.nombre);  return (IDENTIFICADOR);}
+#line 32 "lexico.l"
+{strcpy(yylval.nombre, yytext); verificarTamanio(yylval.nombre);  return (IDENTIFICADOR);}
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 32 "lexico.l"
+#line 33 "lexico.l"
 {yylval.num=atoi(yytext); return (CONSTANTE);};
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 33 "lexico.l"
+#line 34 "lexico.l"
 {return (ASIGNACION);}
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 34 "lexico.l"
+#line 35 "lexico.l"
 {return (MAS);}
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 35 "lexico.l"
+#line 36 "lexico.l"
 {return (MENOS);}
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 36 "lexico.l"
+#line 37 "lexico.l"
 {return (PARIZQ);}
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 37 "lexico.l"
+#line 38 "lexico.l"
 {return (PARDER);}
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 38 "lexico.l"
+#line 39 "lexico.l"
 {return (COMA);}
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 39 "lexico.l"
+#line 40 "lexico.l"
 {return (PCOMA);}
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 40 "lexico.l"
+#line 41 "lexico.l"
 ;
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 42 "lexico.l"
-{printf("Error lexico: %s es un caracter invalido\n", yytext); exit(0);};
+#line 43 "lexico.l"
+{printf("Error lexico: %s no es un caracter o identificador valido\n", yytext); exit(0);};
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 44 "lexico.l"
+#line 45 "lexico.l"
 ECHO;
 	YY_BREAK
-#line 724 "lex.yy.c"
+#line 725 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1606,12 +1607,29 @@ int main()
 	return 0;
 	}
 #endif
-#line 44 "lexico.l"
+#line 45 "lexico.l"
 
 
 void verificarTamanio(char* identificador){
     if(strlen(identificador) > 32){
         printf("Error lexico: %s supera los 32 caracteres permitidos \n", identificador); 
         exit(0);
+    }
+}
+
+int main(){
+    FILE *f;
+    char nombreArchivo[20];
+    printf("Ingrese el nombre del archivo:\n");
+    scanf("%s", nombreArchivo);
+
+    f = fopen(nombreArchivo, "r");
+    if(f){
+        yyin = f;
+        yyparse();
+        fclose(f);
+    }else{
+        printf("Error al abrir el archivo");
+        fclose(f);
     }
 }

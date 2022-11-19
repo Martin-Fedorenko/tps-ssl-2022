@@ -1,0 +1,1 @@
+inicio leer(a,b); a:=b+2; escribir(a,b); fin
