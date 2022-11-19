@@ -66,4 +66,7 @@ int main(){
         printf("Error al abrir el archivo");
         fclose(f);
     }
+
+    system("PAUSE");
+    return 0;
 }
