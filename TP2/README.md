@@ -6,6 +6,6 @@ Ejecute en su consola los siguientes comandos para compilar Flex y Bison:
 
 ```gcc y.tab.c lex.yy.c```
 
-Ejecute en su consola el siguiente comando para ejecutar el programa:
+Ejecute en su consola el siguiente comando para ejecutar el compliador de lenguaje Micro:
 
 ```a.exe```
